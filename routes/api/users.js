@@ -149,15 +149,7 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.findOneAndRemove({ _id: req.user.id }).then(() => {
-      if (
-        req.user.avatar.charAt(5) === "." &&
-        req.user.avatar.charAt(6) === "g"
-      ) {
-        res.json({ success: true });
-      } else {
-        fs.unlinkSync(req.user.avatar);
-        res.json({ success: true });
-      }
+      res.json({ success: true });
     });
   }
 );
