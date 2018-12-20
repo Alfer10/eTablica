@@ -19,6 +19,12 @@ const PostSchema = new Schema({
     type: Date,
     required: true
   },
+  position: {
+    type: Number
+  },
+  size: {
+    type: Number
+  },
   date: {
     type: Date,
     default: Date.now
