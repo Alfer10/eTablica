@@ -16,7 +16,8 @@ import { clearCurrentProfile } from "./actions/userActions";
 import PrivateRoute from "./components/common/PrivateRoute";
 import NotFound from "./components/not-found/NotFound";
 import Posts from "./components/posts/Posts";
-import Post from "./components/post/Post";
+import MyPosts from "./components/myposts/MyPosts";
+import EditPost from "./components/myposts/EditPost";
 import ChangePassword from "./components/dashboard/ChangePassword";
 
 //Check for token
@@ -65,7 +66,18 @@ class App extends Component {
                 />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/post/:id" component={Post} />
+                <PrivateRoute
+                  exact
+                  path="/posts/user/:id"
+                  component={MyPosts}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/posts/edit/:id"
+                  component={EditPost}
+                />
               </Switch>
               <Route exact path="/not-found" component={NotFound} />
             </div>

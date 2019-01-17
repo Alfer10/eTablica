@@ -21,12 +21,8 @@ class Posts extends Component {
     }
     return (
       <div className="feed">
-        <div className="row">
-          <div className="col-md-12">
-            <PostForm />
-            {postContent}
-          </div>
-        </div>
+        <PostForm />
+        <div className="d-flex flex-row flex-wrap">{postContent}</div>
       </div>
     );
   }

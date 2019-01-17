@@ -11,18 +11,13 @@ const PostSchema = new Schema({
     type: String,
     required: true
   },
+  x: { type: Number, default: 0 },
+  y: { type: Number, default: 0 },
   text: {
     type: String,
     required: true
   },
-  deadline: {
-    type: Date,
-    required: true
-  },
   position: {
-    type: Number
-  },
-  size: {
     type: Number
   },
   date: {

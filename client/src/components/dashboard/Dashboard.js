@@ -24,7 +24,7 @@ class Dashboard extends Component {
       dashboardContent = (
         <div>
           <p className="lead text-muted">Welcome, {user.name}</p>
-          <UserActions />
+          <UserActions user={user} />
           <div style={{ marginBottom: "60px" }} />
           <button
             onClick={this.onDeleteClick.bind(this)}

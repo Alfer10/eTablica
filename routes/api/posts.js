@@ -26,6 +26,23 @@ router.get("/", (req, res) => {
     .catch(err => res.status(404).json({ nopostsfound: "No posts found" }));
 });
 
+// @route GET api/posts/user/:id
+// @desc Get user's post by id
+// @access Private
+
+router.get(
+  "/user/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.find({ user: req.params.id })
+      .sort({ date: -1 })
+      .then(posts => res.json(posts))
+      .catch(err =>
+        res.status(404).json({ nopostfound: "No posts made by this user" })
+      );
+  }
+);
+
 // @route GET api/posts/:id
 // @desc Get post by id
 // @access Public
@@ -57,11 +74,29 @@ router.post(
     const newPost = new Post({
       text: req.body.text,
       name: req.user.name,
-      deadline: req.body.deadline,
       user: req.user.id
     });
 
     newPost.save().then(post => res.json(post));
+  }
+);
+
+// @route POST api/posts/location/:id
+// @desc Edit post's
+// @access Private
+router.post(
+  "/location/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findByIdAndUpdate(
+      req.params.id,
+      { $set: { x: req.body.x, y: req.body.y } },
+      { new: true }
+    )
+      .then(post => res.json(post))
+      .catch(err =>
+        res.status(404).json({ nopostfound: "No post found with that ID" })
+      );
   }
 );
 
@@ -81,15 +116,24 @@ router.post(
       return res.status(400).json(errors);
     }
 
-    Post.findByIdAndUpdate(
-      req.params.id,
-      { $set: { text: req.body.text, deadline: req.body.deadline } },
-      { new: true }
-    )
-      .then(post => res.json(post))
-      .catch(err =>
-        res.status(404).json({ nopostfound: "No post found with that ID" })
-      );
+    User.findById(req.user.id).then(user => {
+      Post.findById(req.params.id)
+        .then(post => {
+          if (post.user.toString() !== req.user.id) {
+            return res
+              .status(401)
+              .json({ notauthorized: "User not authorized" });
+          }
+          Post.findByIdAndUpdate(
+            req.params.id,
+            { $set: { text: req.body.text, deadline: req.body.deadline } },
+            { new: true }
+          ).then(post => res.json(post));
+        })
+        .catch(err =>
+          res.status(404).json({ nopostfound: "No post found with that ID" })
+        );
+    });
   }
 );
 
