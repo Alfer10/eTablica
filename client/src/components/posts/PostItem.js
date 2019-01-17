@@ -18,6 +18,15 @@ class PostItem extends Component {
     this.handleStop = this.handleStop.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({
+      deltaPosition: {
+        x: this.props.post.x,
+        y: this.props.post.y
+      }
+    });
+  }
+
   handleDrag(e, ui) {
     const { x, y } = this.state.deltaPosition;
     this.setState({
