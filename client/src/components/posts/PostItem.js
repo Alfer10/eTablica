@@ -65,22 +65,24 @@ class PostItem extends Component {
             style={{ maxWidth: "18rem" }}
           >
             <div className="card-header">
-              <h5 className="text-center">{post.name}</h5>
+              <h5 className="text-center">
+                {post.name}{" "}
+                <span>
+                  {post.user === auth.user.id ? (
+                    <button
+                      onClick={this.onDeleteClick.bind(this, post._id)}
+                      type="button"
+                      className="btn btn-sm btn-danger mr-1 float-right"
+                    >
+                      {" "}
+                      &times;
+                    </button>
+                  ) : null}
+                </span>
+              </h5>
             </div>
             <div className="card-body">
               <p className="card-text text-center">{post.text}</p>
-              <span>
-                {post.user === auth.user.id ? (
-                  <button
-                    onClick={this.onDeleteClick.bind(this, post._id)}
-                    type="button"
-                    className="btn btn-danger mr-1"
-                  >
-                    {" "}
-                    Delete post
-                  </button>
-                ) : null}
-              </span>
             </div>
             <div className="card-footer bg-transparent border-info">
               {" "}

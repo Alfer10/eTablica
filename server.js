@@ -13,10 +13,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//Konfiguracja bazy danych
 const db = require("./config/keys").mongoURL;
 
-//Połączenie z bazą danych
 mongoose
   .connect(
     db,
