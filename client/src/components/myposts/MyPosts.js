@@ -26,7 +26,7 @@ class MyPosts extends Component {
           />
         ));
       } else {
-        postItems = <h4>You haven't added any places yet.</h4>;
+        postItems = <h4>You haven't added any posts yet.</h4>;
       }
     }
 
