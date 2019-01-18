@@ -143,8 +143,14 @@ router.delete(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.findOneAndRemove({ _id: req.user.id }).then(() => {
-      res.json({ success: true });
+    Post.deleteMany({ user: req.user.id }, function(err) {
+      if (!err) {
+        User.findByIdAndDelete(req.user.id).then(() => {
+          res.json({ success: true });
+        });
+      } else {
+        res.json({ success: false });
+      }
     });
   }
 );
